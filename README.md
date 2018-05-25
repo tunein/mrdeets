@@ -42,3 +42,32 @@ When trying to access an AWS resource, most developers have to open the console,
 ```
 
 # Examples 
+tag key/value
+```./mrDeets -tag Name=nonprod::streaming*  -aws-region us-west-2```
+tag value
+```./mrDeets -tag-value nonprod*  -aws-region us-west-2```
+get the IP address back from an instance id 
+``` ./mrDeets -instance-id i-05502a7f472395473 -out public-ip-address -aws-region us-west-2
+54.201.42.177
+```
+ssh into the box using the instance id
+```ssh ec2-user@`./mrDeets -instance-id i-05502a7f472395473 -out public-ip-address -aws-region us-west-2`
+Last login: Fri May 25 22:12:43 2018 from 38.140.202.59
+...
+[ec2-user@ip-10-82-28-212 ~]$```
+combine filters 
+```
+./mrDeets -tag-value nonprod* -vpc-id vpc-c4717aa0  -aws-region us-west-2
+``` 
+combine output filters 
+``` 
+./mrDeets -instance-id i-05502a7f472395473 -out "public-ip-address,vpc-id,tag" -aws-region us-west-2
+
+54.201.42.177
+vpc-c4717aa0
+tag: aws:autoscaling:groupName=streaming_service-1-staging
+tag: Name=nonprod::streaming_service::staging::1
+tag: datadog=monitored
+tag: Application=streaming_service
+tag: Environment=staging
+```
