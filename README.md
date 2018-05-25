@@ -2,7 +2,7 @@
 Wrapper around the AWS cli for quick queries of AWS resources (currently only EC2) 
 
 # Overview
-When trying to access an AWS resource, most developers have to open the console, search for their instance, copy and paste the info they need then proceed.  Mr. Deets is a small binary to avoid the small but mondane task.  
+When trying to access an AWS resource, most developers have to open the console, search for their instance, copy and paste the info they need then proceed.  Mr. Deets is a small binary to avoid the small but mundane task.  
 
 # Install
 
