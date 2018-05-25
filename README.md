@@ -42,25 +42,36 @@ When trying to access an AWS resource, most developers have to open the console,
 ```
 
 # Examples 
-tag key/value
-```./mrDeets -tag Name=nonprod::streaming*  -aws-region us-west-2```
-tag value
-```./mrDeets -tag-value nonprod*  -aws-region us-west-2```
-get the IP address back from an instance id 
-``` ./mrDeets -instance-id i-05502a7f472395473 -out public-ip-address -aws-region us-west-2
+*search by tag key/value*
+```shell 
+./mrDeets -tag Name=nonprod::streaming*  -aws-region us-west-2
+```
+*search by tag value*
+```shell 
+./mrDeets -tag-value nonprod*  -aws-region us-west-2
+```
+*get the IP address back from an instance id* 
+```shell  
+./mrDeets -instance-id i-05502a7f472395473 -out public-ip-address -aws-region us-west-2
 54.201.42.177
 ```
-ssh into the box using the instance id
-```ssh ec2-user@`./mrDeets -instance-id i-05502a7f472395473 -out public-ip-address -aws-region us-west-2`
+*think I know part of the name and want the IP address* 
+```shell 
+./mrDeets -tag Name=*soundwave*development*  -aws-region us-west-2 -out public-ip-address
+```
+*ssh into the box using the instance id*
+```shell 
+ssh ec2-user@`./mrDeets -instance-id i-05502a7f472395473 -out public-ip-address -aws-region us-west-2`
 Last login: Fri May 25 22:12:43 2018 from 38.140.202.59
 ...
-[ec2-user@ip-10-82-28-212 ~]$```
-combine filters 
+[ec2-user@ip-10-82-28-212 ~]$
 ```
+*combine filters* 
+```shell 
 ./mrDeets -tag-value nonprod* -vpc-id vpc-c4717aa0  -aws-region us-west-2
 ``` 
-combine output filters 
-``` 
+*combine output filters*
+``` shell 
 ./mrDeets -instance-id i-05502a7f472395473 -out "public-ip-address,vpc-id,tag" -aws-region us-west-2
 
 54.201.42.177
@@ -71,3 +82,4 @@ tag: datadog=monitored
 tag: Application=streaming_service
 tag: Environment=staging
 ```
+ 
