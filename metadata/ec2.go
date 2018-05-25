@@ -3,20 +3,20 @@ package metadata
 import "github.com/aws/aws-sdk-go/service/ec2"
 
 type Ec2Options struct {
-	InstanceId    []string `name:"instance-id" from:"*" `
-	PublicDNSName []string `name:"public-dns-name" from:"*" `
+	InstanceId    []string `name:"instance-id" from:"*" help:"the instance-id of the instance"`
+	PublicDNSName []string `name:"public-dns-name" from:"*" help:"the public DNS name of the instance"`
 	//LaunchTime       time.Time `name:"launch-time" from:"*" `
-	PublicIPAddress  []string `name:"public-ip-address" from:"*" `
-	PrivateIPAddress []string `name:"private-ip-address" from:"*" `
-	VpcID            []string `name:"vpc-id" from:"*" `
-	AvailabilityZone []string `name:"availability-zone" from:"*" `
-	State            []string `name:"state" from:"*" `
-	Out              []string `name:"out" from:"*" `
-	TagKeys          []string `name:"tag-key" from:"*" `
-	TagValues        []string `name:"tag-value" from:"*" `
-	Tag              []string `name:"tag" from:"*" `
-	SecurityGroups   []string `name:"security-groups" from:"*" `
-	Region           string   `name:"aws-region" validate:"nonzero "from:"*" `
+	PublicIPAddress  []string `name:"public-ip-address" from:"*" help:"the public IP address"`
+	PrivateIPAddress []string `name:"private-ip-address" from:"*" help:"the private IP address"`
+	VpcID            []string `name:"vpc-id" from:"*" help:"the VPC Id of the instance"`
+	AvailabilityZone []string `name:"availability-zone" from:"*" help:"the availability zone of the instance"`
+	State            []string `name:"instance-state-name" from:"*" help:"the current state of the instance (running, pending, etc) "`
+	Out              []string `name:"out" from:"*" help:"what properties to display.  use --help to see properties"`
+	TagKeys          []string `name:"tag-key" from:"*" help:"the tag key(s) of the instance"`
+	TagValues        []string `name:"tag-value" from:"*" help:"the tag values(s) of the instance"`
+	Tag              []string `name:"tag" from:"*" help:"the tag key(s)/value(s) of the instance"`
+	SecurityGroups   []string `name:"security-groups" from:"*" help:"the security groups of the instance"`
+	Region           string   `name:"aws-region" validate:"nonzero "from:"*" help:"what region should should we search in"`
 }
 
 const TimeStamp = "2006-01-02T15:04:05.000"
@@ -31,6 +31,7 @@ type MinimalInstance struct {
 	SecurityGroups   []SecurityGroup `json:"security-groups"`
 	VpcID            string          `json:"vpc-id"`
 	Tags             []Tag           `json:"tags"`
+	State            string          `json:"instance-state-name"`
 }
 
 type SecurityGroup struct {
@@ -72,6 +73,7 @@ func NewMinimalEC2Instance(instance *ec2.Instance) *MinimalInstance {
 		SecurityGroups:   secGroups,
 		Tags:             tags,
 		VpcID:            *instance.VpcId,
+		State:            instance.State.String(),
 	}
 	return &p
 }

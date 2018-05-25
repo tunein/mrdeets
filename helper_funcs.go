@@ -55,7 +55,6 @@ func createFilters(opts *metadata.Ec2Options) []*ec2.Filter {
 				values := []string(k.Interface().([]string))
 				for _, value := range values {
 					pair := strings.Split(value, "=")
-					fmt.Println(pair)
 					n := fmt.Sprintf("tag:%s", pair[0])
 					f := ec2.Filter{
 						Name:   aws.String(n),
@@ -81,7 +80,6 @@ func createFilters(opts *metadata.Ec2Options) []*ec2.Filter {
 			filters = append(filters, &f)
 		}
 	}
-	fmt.Println(filters)
 	return filters
 
 }
@@ -119,7 +117,7 @@ func createOutFilter(opts *metadata.Ec2Options, instance *metadata.MinimalInstan
 				}
 				continue
 			}
-			if parseTag(msValue.Type().Field(i).Tag) == "security-groups" {
+			if parseTag(msValue.Type().Field(i).Tag) == "security-groups" && (s == "security-groups") {
 				sg := getSecurityGroups(instance)
 				for name, id := range sg {
 					i := fmt.Sprintf("instance.group-id: %s", id)
@@ -177,7 +175,7 @@ func removeQuotes(s string) string {
 }
 
 func parseTag(tag reflect.StructTag) string {
-	r := regexp.MustCompile(`name:(?P<Value>.*)\s`)
+	r := regexp.MustCompile(`name:"(?P<Value>[^"]*)"`)
 	resp := r.FindStringSubmatch(strings.TrimSpace(string(tag)))
 	return removeQuotes(resp[1])
 }
