@@ -12,6 +12,7 @@ When trying to access an AWS resource, most developers have to open the console,
 ` ./mrDeets -option []{value} -out -option []{value} ` 
 
 # Options
+```shell
 -availability-zone value
     	the availability zone of the instance
   -aws-region string
@@ -38,5 +39,6 @@ When trying to access an AWS resource, most developers have to open the console,
     	the tag values(s) of the instance
   -vpc-id value
     	the VPC Id of the instance
+```
 
 # Examples 
